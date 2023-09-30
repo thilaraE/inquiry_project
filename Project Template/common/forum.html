@@ -122,14 +122,39 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Question Forum</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="openForm()"><i
                             class="fas fa-comments fa-sm text-white-50"></i> New Question</a>
+                            
+                            <script>
+                                function openForm() {
+                                  document.getElementById("myForm").style.display = "block";
+                                }
+                                function submitQuestion() {
+                                  document.getElementById("myForm").style.display = "none";
+                                }
+                                
+                                function closeForm() {
+                                  document.getElementById("myForm").style.display = "none";
+                                }
+                            </script>
                     </div>
 
                     <!-- Content Row -->
-                    <div class="row">
+                    <div class="row" id="questionCards">
 
                         <!-- Basic Card Example -->
+                        <div class="hide" id="myForm">
+                        <div class="card shadow mb-4" >
+                            <div class="card-header py-3">
+                                    <input type="text" class="m-0 font-weight-bold text-primary" id="exampleFirstName"
+                                            placeholder="Write your question here">
+                            </div>
+                            <a href="#" class="btn btn-primary btn-user btn-block" onclick="submitQuestion()">
+                                Submit
+                            </a>
+                        </div>
+                        </div>
+                        
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">What is the difference between a chemical change and a physical change?</h6>
@@ -154,6 +179,16 @@
                             </div>
                             <div class="card-body">
                                 An acid is any hydrogen-containing substance that is capable of donating a proton (hydrogen ion) to another substance. A base is a molecule or ion able to accept a hydrogen ion from an acid.
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">What is the difference between an acid and a base?</h6>
+                            </div>
+                            <div class="card-body">
+                                <input class="form-control form-control-user" id="answer"
+                                        placeholder="Answer">
                             </div>
                         </div>
 
