@@ -117,56 +117,84 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container">
+                <div class="container-fluid">
 
-                    <div class="card o-hidden border-0 shadow-lg my-5">
-                        <div class="card-body p-0">
-                            <!-- Nested Row within Card Body -->
-                            <div class="row">
-                                <div class="col-lg-7">
-                                    <div class="p-5">
-                                        <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Add new question to the forum</h1>
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Schedule class</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Create a new tutorial session</h1>
+                                </div>
+                                <form class="user">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="class" name="classId" required>
+                                                <option class="dropdown-item" value="">Class Id</option>
+                                                <?php
+                                                    require_once("settings.php");
+                                                    $conn = @mysqli_connect($host,$user,$pwd,$sql_db);
+                                                    if(!$conn){
+                                                        echo mysqli_connect_error();
+                                                    }
+                                                    else{
+                                                            $query = "SELECT class_id,subject FROM tutorial_class";
+                                                            $result = mysqli_query($conn,$query);
+                                                            if(!$result){
+                                                                echo "<p>Something wrong with the query</p>";
+                                                            }
+                                                            else{
+                                                                while($row=mysqli_fetch_assoc($result)){
+                                                                    echo "<option class=\"dropdown-item\" value=\"",$row["class_id"],"\">",$row["class_id"],"-",$row["subject"],"</option>";
+                                                                }
+                                                            }
+                                                    }
+                                                ?>
+                                            </select>
                                         </div>
-                                        <form class="user">
-                                            <div class="form-group row">
-                                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                                    <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                                        placeholder="First Name">
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                                        placeholder="Last Name">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                                    placeholder="Email Address">
-                                            </div>
-                                            <div class="form-group row">
-                                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                                    <input type="password" class="form-control form-control-user"
-                                                        id="exampleInputPassword" placeholder="Password">
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <input type="password" class="form-control form-control-user"
-                                                        id="exampleRepeatPassword" placeholder="Repeat Password">
-                                                </div>
-                                            </div>
-                                            <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                                Register Account
-                                            </a>
-                                        </form>
-                                        <hr>
-                                        <div class="text-center">
-                                            <a class="small" href="login.html">Already have an account? Login!</a>
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <select class="form-control" id="tutor" name="tutorId" required>
+                                                <option class="dropdown-item" value="">Tutor Id</option>
+                                                <?php
+                                                    require_once("settings.php");
+                                                    $conn = @mysqli_connect($host,$user,$pwd,$sql_db);
+                                                    if(!$conn){
+                                                        echo mysqli_connect_error();
+                                                    }
+                                                    else{
+                                                            $query = "SELECT tutor_id, first_name FROM tutor,user WHERE tutor_id=user_id";
+                                                            $result = mysqli_query($conn,$query);
+                                                            if(!$result){
+                                                                echo "<p>Something wrong with the query</p>";
+                                                            }
+                                                            else{
+                                                                while($row=mysqli_fetch_assoc($result)){
+                                                                    echo "<option class=\"dropdown-item\" value=\"",$row["tutor_id"],"\">",$row["tutor_id"],"-",$row["first_name"],"</option>";
+                                                                }
+                                                            }
+                                                    }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
-                                </div>
+                                    <a href="schedule_class.html" class="btn btn-primary btn-user btn-block">
+                                        Create tutorial session
+                                    </a>
+                                    </div>
+                                    
+                                    
+                                    
+                                </form>
+                                
                             </div>
                         </div>
                     </div>
-            
+
                 </div>
                 <!-- /.container-fluid -->
 
