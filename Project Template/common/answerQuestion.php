@@ -123,6 +123,9 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Question Forum</h1>
                     </div>
+
+                    <form id="questionForm" class="user" method="post" action="forumProcessing.php">
+                        <div class="card shadow mb-4"><div class="card-header py-3">
                     
 
                     <?php
@@ -133,18 +136,27 @@
                         }
                         else{
                             $query = "";
-                            $query = "SELECT * FROM forum,question WHERE forum.forum_id=question.forum_id and answer IS NULL and class_id=1 ORDER BY asked_timestamp ASC";
+                            $query = "SELECT * FROM question WHERE question_id= 12";
                             $result = mysqli_query($conn,$query);
                             if(!$result){
                                 echo "<p>Something wrong with the query</p>";
                             }
                             else{
-                                while($row=mysqli_fetch_assoc($result)){
-                                    echo "<div class=\"card shadow mb-4\"><div class=\"card-header py-3\"><a href=\"answerQuestion.php\"><h6 class=\"m-0 font-weight-bold text-primary\">",$row["question"],"</h6></a><small>Student ID:",$row["asked_by"],"</small></br><small>Posted at: ",$row["asked_timestamp"],"</small></div></div>";
-                                }
+                                $row=mysqli_fetch_assoc($result);
+                                echo "<h6 class=\"m-0 font-weight-bold text-primary\">",$row["question"],"</h6><small>Student ID:",$row["asked_by"],"</small></br><small>Posted at: ",$row["asked_timestamp"],"</small>";
+                                echo " <input type=\"hidden\" name=\"formType\" value=\"submitAnswer\">";
+                                echo " <input type=\"hidden\" name=\"questionId\" value=\"",$row["question_id"],"\">";
                             }
                         }
                     ?>
+                    </div>
+
+                    <div class="card-body"> 
+                        <input class="form-control form-control-user" name="answer" placeholder="Answer">
+                    </div> 
+                </div>
+                <input class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit" value="Submit" />
+            </form>
 
                 </div>
                 <!-- /.container-fluid -->
