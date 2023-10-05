@@ -17,8 +17,9 @@
             $query = "INSERT INTO `question` (`question_id`, `forum_id`, `asked_by`, `answered_by`, `question`, `answer`, `asked_timestamp`, `answered_timestamp`) VALUES (NULL, '1', '3', NULL, '$question' , NULL, '$date', NULL)";
             echo $query;
             $result = mysqli_query($conn,$query);
-            header("location: forum.php");
-    
+            if($result){
+                header("location: forum.php");
+            } 
         }
         else{
             echo "here";
