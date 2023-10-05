@@ -129,38 +129,65 @@
                         <div class="col-lg-7">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Create a new tutorial class</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Create a new tutorial session</h1>
                                 </div>
-                                <form class="user">
+                                <form class="user" method="post" action="adminScheduling.php">
                                     <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="text" class="form-control form-control-user" name="subject"
-                                                placeholder="Subject">
-                                        </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control form-control-user" name="duration"
-                                                placeholder="Duration in hours">
+                                            <select class="form-control" id="class" name="classId" required>
+                                                <option class="dropdown-item" value="">Class Id</option>
+                                                <?php
+                                                    require_once("settings.php");
+                                                    $conn = @mysqli_connect($host,$user,$pwd,$sql_db);
+                                                    if(!$conn){
+                                                        echo mysqli_connect_error();
+                                                    }
+                                                    else{
+                                                            $query = "SELECT class_id,subject FROM tutorial_class";
+                                                            $result = mysqli_query($conn,$query);
+                                                            if(!$result){
+                                                                echo "<p>Something wrong with the query</p>";
+                                                            }
+                                                            else{
+                                                                while($row=mysqli_fetch_assoc($result)){
+                                                                    echo "<option class=\"dropdown-item\" value=\"",$row["class_id"],"\">",$row["class_id"],"-",$row["subject"],"</option>";
+                                                                }
+                                                            }
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <select class="form-control" id="tutor" name="tutorId" required>
+                                                <option class="dropdown-item" value="">Tutor Id</option>
+                                                <?php
+                                                    require_once("settings.php");
+                                                    $conn = @mysqli_connect($host,$user,$pwd,$sql_db);
+                                                    if(!$conn){
+                                                        echo mysqli_connect_error();
+                                                    }
+                                                    else{
+                                                            $query = "SELECT tutor_id, first_name FROM tutor,user WHERE tutor_id=user_id";
+                                                            $result = mysqli_query($conn,$query);
+                                                            if(!$result){
+                                                                echo "<p>Something wrong with the query</p>";
+                                                            }
+                                                            else{
+                                                                while($row=mysqli_fetch_assoc($result)){
+                                                                    echo "<option class=\"dropdown-item\" value=\"",$row["tutor_id"],"\">",$row["tutor_id"],"-",$row["first_name"],"</option>";
+                                                                }
+                                                            }
+                                                    }
+                                                ?>
+                                            </select>
+                                            <input type="hidden" name="formType" value="scheduleSession">
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="text" class="form-control form-control-user" name="day"
-                                                placeholder="Scheduled day">
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control form-control-user" name="time"
-                                                placeholder="Scheduled time">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" name="content"
-                                            placeholder="Content">
+                                    <input class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit" value="Create tutorial session" />
                                     </div>
                                     
                                     
-                                    <a href="schedule_class.html" class="btn btn-primary btn-user btn-block">
-                                        Create tutorial class
-                                    </a>
+                                    
                                 </form>
                                 
                             </div>
