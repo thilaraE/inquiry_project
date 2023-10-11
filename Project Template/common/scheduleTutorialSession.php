@@ -131,7 +131,7 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Create a new tutorial session</h1>
                                 </div>
-                                <form class="user" method="post" action="adminScheduling.php">
+                                <form class="user" method="post" action="adminForms.php">
                                     <div class="form-group row">
                                         <div class="col-sm-6">
                                             <select class="form-control" id="class" name="classId" required>
