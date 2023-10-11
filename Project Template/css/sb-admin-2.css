@@ -4493,6 +4493,7 @@ input[type="button"].btn-block {
   background-clip: border-box;
   border: 1px solid #e3e6f0;
   border-radius: 0.35rem;
+
 }
 
 .card > hr {
@@ -11278,4 +11279,7 @@ footer.sticky-footer .copyright {
 
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
+}
+.upcoming{
+  display:flex;
 }
