@@ -135,8 +135,11 @@
                             echo mysqli_connect_error();
                         }
                         else{
+                            $time_at_load = microtime(true);
+                            echo $time_at_load;
+                            $question_id = $_GET["id"];
                             $query = "";
-                            $query = "SELECT * FROM question WHERE question_id= 12";
+                            $query = "SELECT * FROM question WHERE question_id= $question_id";
                             $result = mysqli_query($conn,$query);
                             if(!$result){
                                 echo "<p>Something wrong with the query</p>";
@@ -144,8 +147,10 @@
                             else{
                                 $row=mysqli_fetch_assoc($result);
                                 echo "<h6 class=\"m-0 font-weight-bold text-primary\">",$row["question"],"</h6><small>Student ID:",$row["asked_by"],"</small></br><small>Posted at: ",$row["asked_timestamp"],"</small>";
+                                echo " <input type=\"hidden\" name=\"questionId\" value=\"", $_GET["id"],"\">";
+                                echo " <input type=\"hidden\" name=\"startTime\" value=\"",$time_at_load,"\">";
                                 echo " <input type=\"hidden\" name=\"formType\" value=\"submitAnswer\">";
-                                echo " <input type=\"hidden\" name=\"questionId\" value=\"",$row["question_id"],"\">";
+                               
                             }
                         }
                     ?>

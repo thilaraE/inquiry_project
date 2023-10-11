@@ -31,7 +31,9 @@
                     $answer = $_POST["answer"];
                     echo $questionId,$answer;
                     $date = date('Y-m-d H:i:s');
-                    $query = "UPDATE question SET answer= '$answer', answered_timestamp='$date', answered_by='2' WHERE question_id='$questionId'";
+                    $time_post = microtime(true);
+                    $exec_time = $time_post - $_POST["startTime"];
+                    $query = "UPDATE question SET answer= '$answer', answered_timestamp='$date', answered_by='2', time_taken='$exec_time' WHERE question_id='$questionId'";
                     echo $query;
                     $result = mysqli_query($conn,$query);
                     if($result){
