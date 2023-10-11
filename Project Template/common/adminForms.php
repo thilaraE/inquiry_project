@@ -48,10 +48,11 @@
                     $speciality = $_POST["speciality"];
                 }
                 $password = rand_string(10);
+                $hash = password_hash($password, PASSWORD_DEFAULT);
                 $queryUsernameCheck = "SELECT * FROM user WHERE username='$username'";
                 $resultUsernameCheck = mysqli_query($conn,$queryUsernameCheck);
                 if(mysqli_num_rows($resultUsernameCheck)==0){
-                    $userQuery = "INSERT INTO `user`(`username`, `password`, `first_name`, `last_name`, `role`) VALUES ('$username' , '$password','$firstname','$lastname','$role');";
+                    $userQuery = "INSERT INTO `user`(`username`, `password`, `first_name`, `last_name`, `role`) VALUES ('$username' , '$hash','$firstname','$lastname','$role');";
                     $userResult = mysqli_query($conn,$userQuery);
                     $userIdQuery = "SELECT user_id FROM user WHERE username='$username';";
                     $userIdResult = mysqli_query($conn,$userIdQuery);
@@ -64,7 +65,16 @@
                         $tutorQuery = "INSERT INTO `tutor`(`tutor_id`, `speciality`, `added_by`) VALUES ('$userId' , '$speciality',1)";
                         $tutorResult = mysqli_query($conn,$tutorQuery);
                     }
-                    if($userResult && ($studentResult || $tutorResult)){
+                    if($userResult){
+
+                        $msg = "Your account has been successfully created at Bright Boost! \n Please use to following credentials to log into the system:\n Username: $username \n Password: $password \n Have fun!";
+
+                        // use wordwrap() if lines are longer than 70 characters
+                        $msg = wordwrap($msg,70);
+
+                        // send email
+                        mail($username,"User Account Created!",$msg);
+
                         echo '<script type="text/javascript">'; 
                         echo 'alert("Successfull: User successfully added!");'; 
                         echo 'window.location.href = "addUser.html";';
