@@ -24,6 +24,57 @@
 
 <body id="page-top">
 
+    <?php
+    include("settining.php");
+
+    $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
+    $role = "stu";
+    if (!$conn) {
+        echo $host;
+        echo $user;
+        echo $pwd;
+        echo mysqli_connect_error();
+    }
+    // get the total classes 
+    $totalCoursesQ = "SELECT COUNT(*) as class_id FROM tutorial_class";
+    $totalCourses = mysqli_query($conn, $totalCoursesQ);
+    $totalCoursesRow = mysqli_fetch_assoc($totalCourses);
+
+    // get the total student 
+    $totalStudentsQ = "SELECT COUNT(*) as student_id FROM student";
+    $totalStudents = mysqli_query($conn, $totalStudentsQ);
+    $totalStudentsRow = mysqli_fetch_assoc($totalStudents);
+
+    // get the total questions 
+    $totalquestionsQ = "SELECT COUNT(*) as question_id FROM question";
+    $totalquestions = mysqli_query($conn, $totalquestionsQ);
+    $totalquestionsRow = mysqli_fetch_assoc($totalquestions);
+
+    // get the total questions answerd 
+    $totalquestionsAnsweredQ = "SELECT COUNT(*) AS question_id FROM question WHERE answered_by IS NOT NULL";
+    $questionsAnswered = mysqli_query($conn, $totalquestionsAnsweredQ);
+    $totalquestionsAnsweredRow = mysqli_fetch_assoc($questionsAnswered);
+
+
+
+    // get courses table 
+    $tableForAllCoursesQ = "SELECT
+    tc.class_id,
+    tc.subject AS tutorial_subject,
+    COUNT(q.question_id) AS question_count,
+    COUNT(DISTINCT e.student_id) AS student_count
+    FROM
+    tutorial_class tc
+    LEFT JOIN
+    question q ON tc.class_id = q.forum_id
+    LEFT JOIN
+    enrollment e ON tc.class_id = e.class_id
+    GROUP BY
+    tc.class_id, tc.subject";
+    $tableForAllCourses = mysqli_query($conn, $tableForAllCoursesQ);
+    ?>
+
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -40,20 +91,20 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="overview.html">
+                <a class="nav-link" href="overview.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Overview</span></a>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item active">
-                <a class="nav-link" href="all_courses.html">
+                <a class="nav-link" href="all_courses.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>All Courses</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="add_tutor.html">
+                <a class="nav-link" href="add_tutor.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Add Tutor</span></a>
             </li>
@@ -92,7 +143,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -123,13 +174,12 @@
                 </nav>
                 <!-- End of Topbar -->
 
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">All Courses</h1>
+                        <h1 class="h3 mb-0 text-gray-800">All courses</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -143,7 +193,9 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Total Courses</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> 15 </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php echo $totalCoursesRow['class_id']; ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-cogs fa-2x text-black-300"></i>
@@ -161,7 +213,9 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Total students </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">3,622</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php echo $totalStudentsRow['student_id']; ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-user fa-2x text-black-300"></i>
@@ -179,7 +233,9 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Total answerd questions</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">1,493</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php echo $totalquestionsAnsweredRow['question_id']; ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -197,7 +253,9 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Total questions</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">1,622</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php echo $totalquestionsRow['question_id']; ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-comments fa-2x text-black-300"></i>
@@ -220,7 +278,6 @@
                                         <tr>
                                             <th>Class ID</th>
                                             <th>Class Name</th>
-                                            <th>Grade</th>
                                             <th>Questions</th>
                                             <th>Enrollments</th>
                                         </tr>
@@ -229,83 +286,21 @@
                                         <tr>
                                             <th>Class ID</th>
                                             <th>Class Name</th>
-                                            <th>Grade</th>
                                             <th>Questions</th>
                                             <th>Enrollments</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr>
-                                            <td>001</td>
-                                            <td>Mathematics</td>
-                                            <td>Grade 6</td>
-                                
-                                            <td>175</td>
-                                            <td>345</td>
-                                        </tr>
-                                        <tr>
-                                            <td>002</td>
-                                            <td>Mathematics</td>
-                                            <td>Grade 7</td>
-                                            <td>162</td>
-                                            <td>415</td>
-                                        </tr>
-                                        <tr>
-                                            <td>003</td>
-                                            <td>Mathematics</td>
-                                            <td>Grade 8</td>
-                                            <td>168</td>
-                                            <td>280</td>
-                                        </tr>
-                                        <tr>
-                                            <td>004</td>
-                                            <td>Mathematics</td>
-                                            <td>Grade 9</td>
-                                            <td>155</td>
-                                            <td>490</td>
-                                        </tr>
-                                        <tr>
-                                            <td>005</td>
-                                            <td>Mathematics</td>
-                                            <td>Grade 10</td>
-                                            <td>190</td>
-                                            <td>325</td>
-                                        </tr>
-                                        <tr>
-                                            <td>006</td>
-                                            <td>Science</td>
-                                            <td>Grade 6</td>
-                                            <td>180</td>
-                                            <td>465</td>
-                                        </tr>
-                                        <tr>
-                                            <td>007</td>
-                                            <td>Science</td>
-                                            <td>Grade 7</td>
-                                            <td>165</td>
-                                            <td>398</td>
-                                        </tr>
-                                        <tr>
-                                            <td>008</td>
-                                            <td>Science</td>
-                                            <td>Grade 8</td>
-                                            <td>172</td>
-                                            <td>314</td>
-                                        </tr>
-                                        <tr>
-                                            <td>009</td>
-                                            <td>Science</td>
-                                            <td>Grade 9</td>
-                                            <td>158</td>
-                                            <td>221</td>
-                                        </tr>
-                                        <tr>
-                                            <td>010</td>
-                                            <td>Science</td>
-                                            <td>Grade 10</td>
-                                            <td>167</td>
-                                            <td>289</td>
-                                        </tr>
+                                        <?php
+                                        while ($tableForAllCoursesRow = mysqli_fetch_assoc($tableForAllCourses)) {
+                                            echo "<tr>";
+                                            echo "<td>", $tableForAllCoursesRow["class_id"], "</td>\n";
+                                            echo "<td>", $tableForAllCoursesRow["tutorial_subject"], "</td>\n";
+                                            echo "<td>", $tableForAllCoursesRow["question_count"], "</td>\n";
+                                            echo "<td>", $tableForAllCoursesRow["student_count"], "</td>\n";
+                                            echo "</tr>";
+                                        }
+                                        ?>
 
                                     </tbody>
                                 </table>

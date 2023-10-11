@@ -23,7 +23,6 @@
 </head>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -40,20 +39,20 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="overview.html">
+                <a class="nav-link" href="overview.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Overview</span></a>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="all_courses.html">
+                <a class="nav-link" href="all_courses.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>All Courses</span></a>
             </li>
 
             <li class="nav-item active">
-                <a class="nav-link" href="add_tutor.html">
+                <a class="nav-link" href="add_tutor.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Add Tutor</span></a>
             </li>
@@ -127,36 +126,34 @@
                 <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Add a Tutor !</h1>
                 </div>
-                <form class="user">
+                <form class="user" method="post" action="add_tutor_form.php">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-user" id="exampleInputUsername"
+                            name="exampleInputUsername" placeholder="Username">
+                    </div>
                     <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0">
                             <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                placeholder="First Name">
+                                name="exampleFirstName" placeholder="First Name">
                         </div>
                         <div class="col-sm-6">
                             <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                placeholder="Last Name">
+                                name="exampleLastName" placeholder="Last Name">
                         </div>
-                    </div>
-                    <div class="form-group">                                    
-                        <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                            placeholder="Email Address">
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input type="password" class="form-control form-control-user"
-                                id="exampleInputPassword" placeholder="Password">
+                            <input type="password" class="form-control form-control-user" id="exampleInputPassword"
+                                name="exampleInputPassword" placeholder="Password">
                         </div>
                         <div class="col-sm-6">
-                            <input type="password" class="form-control form-control-user"
-                                id="exampleRepeatPassword" placeholder="Repeat Password">
+                            <input type="password" class="form-control form-control-user" id="exampleRepeatPassword"
+                                name="exampleRepeatPassword" placeholder="Repeat Password">
                         </div>
                     </div>
-                    <a href="login.html" class="btn btn-primary btn-user btn-block">
-                        Register Account
-                    </a>
+                    <button type="submit" class="btn btn-primary btn-user btn-block">Register Account</button>
                 </form>
-                
+
 
                 <!-- End of Main Content -->
 
