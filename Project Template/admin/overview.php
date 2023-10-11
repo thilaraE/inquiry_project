@@ -23,6 +23,21 @@
 </head>
 
 <body id="page-top">
+    <?php
+    include("settining.php");
+
+    $conn = @mysqli_connect($host,$user,$pwd,$sql_db);
+                        $role = "stu";
+                        if(!$conn){
+                            echo $host;
+                            echo $user;
+                            echo $pwd;
+                            echo mysqli_connect_error();
+                        }else{
+                            echo "success";
+                        }
+    ?>
+
 
     <!-- Page Wrapper -->
     <div id="wrapper">
