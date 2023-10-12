@@ -36,19 +36,19 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Enroll now</h1>
                             </div>
-                            <form class="user">
+                            <form action="process-signup.php" method="post" id="signup" novalidate> 
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                        <input type="text" name="name" class="form-control form-control-user" id="exampleFirstName"
                                             placeholder="First Name" required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
+                                        <input type="text" name="lastname" class="form-control form-control-user" id="exampleLastName"
                                             placeholder="Last Name" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                                    <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail"
                                         placeholder="Email Address" required>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleState"
+                                        <input type="text"name="state" class="form-control form-control-user" id="exampleState"
                                             placeholder="State" required>
                                     </div>
                                     <div class="col-sm-6">
@@ -71,7 +71,7 @@
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="index.php">Already have an account? Login!</a>
+                                <a class="small" href="login.html">Already have an account? Login!</a>
                             </div>
                         </div>
                     </div>

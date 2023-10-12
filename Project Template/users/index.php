@@ -1,15 +1,4 @@
-<?php
 
-$is_invalid = false;
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    
-    $mysqli = require __DIR__ . "/database.php";
-    
-    $sql = sprintf("SELECT * FROM user
-                    WHERE email = '%s'",
-                   $mysqli->real_escape_string($_POST["email"]));
-    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,15 +45,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                         
 
                                     </div>
-                                    <form action="index.php" method="post" class="user">
-                                        <?php 
+                                    <form action="login1.php" method="post" class="user">
+                                        <?php if(isset($_GET['error'])) { ?>
+                                            <p class="error"> <?php echo $_GET['error']; ?></p>
+                                       <?php } ?>                                       
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input type="text" name="uname" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Admin ID" required>
+                                                placeholder="User Name" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
+                                            <input type="password" name="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Password" required>
                                         </div>
                                         <div class="form-group">
@@ -75,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                             </div>
                                         </div>
                                         
-                                        <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
                                     
                                     
                                         <a href="register.html" class="btn btn-primary btn-user btn-block">

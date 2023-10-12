@@ -6,10 +6,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     $mysqli = require __DIR__ . "/database.php";
     
-    $sql = sprintf("SELECT * FROM user
+    $sql = sprintf("SELECT * FROM user1
                     WHERE email = '%s'",
                    $mysqli->real_escape_string($_POST["email"]));
+
+     $result = $mysqli->query($sql);
     
+    $user = $result->fetch_assoc();
+ 
+    
+}
+    
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,35 +64,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                         
 
                                     </div>
-                                    <form action="index.php" method="post" class="user">
-                                        <?php 
+                                    <?php if ($is_invalid): ?>
+                                         <em>Invalid login</em>
+                                     <?php endif; ?>
+    
+                                    <form  method="post" class="user">
+                                        
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Admin ID" required>
+                                                placeholder="User name" 
+                                                value="<?= htmlspecialchars($_POST["email"] ?? "") ?>">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password" required>
+                                                id="exampleInputPassword" placeholder="Password">
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
+                                        
+                                       
                                         
                                         <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
                                     
-                                    
-                                        <a href="register.html" class="btn btn-primary btn-user btn-block">
-                                            Enroll
-                                        </a>
-                                     
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div>
                                     
                                     </div>
                                 </div>
