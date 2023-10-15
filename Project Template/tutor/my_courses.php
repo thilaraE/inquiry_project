@@ -119,76 +119,87 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <!-- <div class="container-fluid">
 
-                    <!-- Page Heading -->
+                   
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">My Courses</h1>
                     </div>
 
-                    <!-- Content Row -->
                     <div class="row">
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Total Courses
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <?php include("get_total_courses.php"); ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                      
+                        
+                    </div>
+                </div> -->
+                <div class="container-fluid">
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Total Student Enrollment
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <?php include("get_total_students.php"); ?>
-                                            </div>
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">My Course Enrollments</h1>
+            </div>
+
+            <!-- Content Row -->
+            <div class="row">
+<?php 
+$host = "localhost";
+$user = "root";
+$pwd = "";
+$sql_db = "technologyinquiryproject";
+
+$conn = @mysqli_connect($host, $user, $pwd, $sql_db);
+$role = "stu";
+
+if (!$conn) {
+    echo $host;
+    echo $user;
+    echo $pwd;
+    echo mysqli_connect_error();
+} else 
+    // Replace with the actual student_id
+    $student_id = 1; // Replace with the actual student_id
+
+    // Query to get the courses the student has enrolled in
+    $query  = "SELECT tutorial_class.class_id, tutorial_class.subject FROM teaching_session JOIN tutorial_class ON teaching_session.class_id = tutorial_class.class_id WHERE teaching_session.tutor_id = 1;";
+
+    $result = mysqli_query($conn, $query);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $class_id = $row["class_id"];
+            $subject = $row["subject"];
+
+            echo '<div class="col-lg-6 mb-4">';
+            echo '<div class="card bg-primary text-white shadow">';
+            echo '<div class="card-body">';
+            echo '<h5 class="card-title">' . $subject . '</h5>';
+            //echo '<p class="card-text">Fee: ' . $row["fee"] . '</p>';
+            echo '<form method="post" action="coursedetails.php">';
+            echo '<input type="hidden" name="class_id" value="' . $class_id . '">';
+            echo '<button type="submit" name="classid" class="btn btn-primary">View Details</button>';
+            echo '</form>';
+            echo '</div></div></div>';
+        }
+    } else {
+        echo "You are not enrolled in any classes.";
+    }
+
+// Close the database connection
+mysqli_close($conn);
+?>
+     
+</a>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Table -->
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Student Overview</h6>
-                                </div>
-                                <!-- Card Body -->
-                                <section class="ftco-section">
-                                    <div class="container">
-                                        <div class="row justify-content-center">
-                                        </div>
-                                        <div class="row col-md-12">
-                                            <div class="col-md-12">
-                                                <div class="table-wrap">
-                                                    <?php include("generate_table.php"); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                            </div>
+                                
+                        
+                        
+                          
+
                         </div>
                     </div>
+
                 </div>
+
                 <!-- Bootstrap core JavaScript-->
                 <script src="../vendor/jquery/jquery.min.js"></script>
                 <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

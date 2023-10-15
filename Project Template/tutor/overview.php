@@ -58,6 +58,44 @@ if ($result->num_rows > 0) {
 $conn->close();
 ?>
 
+<?php
+                                                // Database connection parameters
+                                                $servername = "localhost";
+                                                $username = "root";
+                                                $password = "";
+                                                $dbname = "technologyinquiryproject";
+
+                                                // Create a database connection
+                                                $conn = new mysqli($servername, $username, $password, $dbname);
+
+                                                // Check if the connection was successful
+                                                if ($conn->connect_error) {
+                                                    die("Connection failed: " . $conn->connect_error);
+                                                }
+
+                                                // // Query to count the total number of students
+                                                // $sql = "SELECT COUNT(student_id) AS total_students FROM student";
+                                                // $result = $conn->query($sql);
+
+                                                // if ($result->num_rows > 0) {
+                                                //     $row = $result->fetch_assoc();
+                                                //     $total_students = $row['total_students'];
+                                                //     echo  $total_students;
+                                                // } else {
+                                                //     echo "No students found.";
+                                                // }
+
+                                                $sql = "SELECT tutorial_class.class_id, tutorial_class.subject, count(enrollment.student_id) as number_of_students FROM (tutorial_class JOIN teaching_session on tutorial_class.class_id=teaching_session.class_id) JOIN enrollment  on tutorial_class.class_id=enrollment.class_id WHERE teaching_session.tutor_id=$tutorId GROUP by tutorial_class.class_id;";
+                                                $tutorClasses = $conn->query($sql);
+
+                                                $sql = "SELECT tutorial_class.class_id,tutorial_class.subject, count(question.question_id) as asked, sum(case when question.answered_by is not null then 1 else 0 end) as answered FROM `question` JOIN ((forum JOIN tutorial_class on forum.class_id= tutorial_class.class_id) JOIN teaching_session on forum.class_id=teaching_session.class_id ) on question.forum_id = forum.forum_id where teaching_session.tutor_id=$tutorId GROUP by tutorial_class.class_id;";
+                                                $questionCount = $conn->query($sql);
+
+                                                $sql = "SELECT count(question.question_id) as asked, sum(case when question.answered_by is not null then 1 else 0 end) as answered FROM `question` JOIN (forum JOIN teaching_session on forum.class_id=teaching_session.class_id ) on question.forum_id = forum.forum_id where teaching_session.tutor_id=1;";
+                                                $totalQuestionCount = $conn->query($sql);
+                                                // Close the database connection
+          $conn->close();
+    ?>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -194,21 +232,20 @@ $conn->close();
                     <div class="row ">
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class=" col-auto mb-4">
+                        <div class="col-12 col-md-3 mb-3">
                             <div class="card w-auto p-3">
 
                                 <div class="d-flex align-items-center">
 
-                                    <div class="image">
-                                        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                            class="rounded" width="155">
+                                    <div class="image" style="width:100px">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400" style="width:100px; font-size:40px"></i>
                                     </div>
 
                                     <div class="ml-3 mr-3 w-100">
 
                                     <h4 class="mb-4 mt-0"><?php echo $tutorName; ?></h4>
 
-
+<!-- 
                                         <div
                                             class="p-2 mt-2 bg-primary h6 d-flex justify-content-between rounded text-white stats align-items-center">
 
@@ -216,44 +253,78 @@ $conn->close();
                                                 <span class="followers  p-0 m-0 font-weight-bold">Students</span>
                                             </div>
                                             <div class="d-flex  mr-3  flex-column">
-                                                <span class="number2  font-weight-bold"><?php
-// Database connection parameters
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "technologyinquiryproject";
-
-// Create a database connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check if the connection was successful
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Query to count the total number of students
-$sql = "SELECT COUNT(student_id) AS total_students FROM student";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $total_students = $row['total_students'];
-    echo  $total_students;
-} else {
-    echo "No students found.";
-}
-
-// Close the database connection
-$conn->close();
-?></span>
+                                                <span class="number2  font-weight-bold"></span>
                                             </div>
 
-                                        </div>
+                                        </div> -->
+                                        
                                     </div>
 
 
                                 </div>
 
+                            </div>
+                        </div>
+                                                <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-12 col-md-3 mb-3">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Total Courses
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php include("get_total_courses.php"); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-12 col-md-3 mb-3">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Total Student Enrollment
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php include("get_total_students.php"); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                                <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-12 col-md-3 mb-3">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Total answered questions
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php 
+                                                if ($totalQuestionCount->num_rows > 0) {
+                                                    $row = $totalQuestionCount->fetch_assoc();
+                                                    $total_q = $row['asked'];
+                                                    $total_awd_q= $row['answered'];
+                                                    echo  $total_awd_q ." of ".  $total_q;
+                                                } else {
+                                                    echo "No students found.";
+                                                }
+                                                
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -286,9 +357,33 @@ $conn->close();
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-area">
-                                        <div id="chart"></div>
-                                    </div>
+                                    <table class="table">
+                                        <theader>
+                                            <tr>
+                                                <th>Class Id</th>
+                                                <th>Subject</th>
+                                                <th>Number of students</th>
+                                            </tr>
+                                        </theader>
+                                        <tbody>
+                                            <?php
+                                                if ($tutorClasses->num_rows > 0) {
+                                                  while($row = $tutorClasses->fetch_assoc()){
+                                                    ?>
+                                                     <tr>
+                                                        <td><?=$row["class_id"]?></td>
+                                                        <td><?=$row["subject"]?></td>
+                                                        <td><?=$row["number_of_students"]?></td>
+                                                    </tr>
+                                                    <?php
+                                                  }
+                                                } else {
+                                                    // echo "No students found.";
+                                                }
+                                            
+                                            ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -317,9 +412,35 @@ $conn->close();
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-area">
-                                        <div id="chart2"></div>
-                                    </div>
+                                    <table class="table">
+                                        <theader>
+                                            <tr>
+                                                <th>Class Id</th>
+                                                <th>Subject</th>
+                                                <th>Number of questions</th>
+                                                <th>Number of answered questions</th>
+                                            </tr>
+                                        </theader>
+                                        <tbody>
+                                            <?php
+                                                if ($questionCount->num_rows > 0) {
+                                                  while($row = $questionCount->fetch_assoc()){
+                                                    ?>
+                                                     <tr>
+                                                        <td><?=$row["class_id"]?></td>
+                                                        <td><?=$row["subject"]?></td>
+                                                        <td><?=$row["asked"]?></td>
+                                                        <td><?=$row["answered"]?></td>
+                                                    </tr>
+                                                    <?php
+                                                  }
+                                                } else {
+                                                    // echo "No students found.";
+                                                }
+                                            
+                                            ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
