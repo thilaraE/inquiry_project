@@ -92,6 +92,37 @@
                 //     header("location: addUser.html");
                 // } 
             }
+            elseif($_POST["formType"]=="resetPassword"){
+                $username = $_POST["username"];
+                $oldPassword = $_POST["oldPassword"];
+                $newPassword = $_POST["newPassword"];
+                $confirmPassword = $_POST["confirmPassword"];
+                if($newPassword != $oldPassword){
+                    echo '<script type="text/javascript">'; 
+                    echo 'alert("Unsuccessful: Password is not the same as the confirmed password!");'; 
+                    echo 'window.location.href = "resetPassword.html";';
+                    echo '</script>';
+                }
+                else{
+                    $oldhash = password_hash($oldPassword, PASSWORD_DEFAULT);
+                    $queryOldPassword = "SELECT * FROM user WHERE username= '$username' AND password='$oldhash'";
+                    $resultOldPassword = mysqli_query($conn,$queryOldPassword);
+                    if(mysqli_num_rows($resultOldPassword)==0){
+                        echo '<script type="text/javascript">'; 
+                        echo 'alert("Unsuccessful: The old password is incorrect!");'; 
+                        echo 'window.location.href = "resetPassword.html";';
+                        echo '</script>';
+                    }
+                    else{
+                        $newhash = password_hash($newPassword, PASSWORD_DEFAULT);
+                        $updateQuery = "UPDATE user SET password='$newhash' WHERE username='$username'";
+                        echo '<script type="text/javascript">'; 
+                        echo 'alert("Successfull: Password successfully added!");'; 
+                        echo 'window.location.href = "resetPassword.html";';
+                        echo '</script>';
+                    }
+                }                
+            }
             
         }
         
