@@ -6,17 +6,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     $mysqli = require __DIR__ . "/database.php";
     
-    $sql = sprintf("SELECT * FROM user1
-                    WHERE email = '%s'",
+    $sql = sprintf("SELECT * FROM user
+                    WHERE username = '%s'",
                    $mysqli->real_escape_string($_POST["email"]));
 
      $result = $mysqli->query($sql);
     
     $user = $result->fetch_assoc();
- 
     
-}
-    
+    if ($user) {
+        echo "here";
+        echo $_POST["password"], $user["password"];
+        
+        if ($_POST["password"]== $user["password"]) {
+            echo "match";
+            
+            session_start();
+            
+            session_regenerate_id();
+            
+            $_SESSION["user_id"] = $user["user_id"];
+            
+            header("Location: index1.php");
+        }
+    }
+  
+    $is_invalid = true;
+   }
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,13 +88,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     <form  method="post" class="user">
                                         
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input type="email" name="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="User name" 
                                                 value="<?= htmlspecialchars($_POST["email"] ?? "") ?>">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
+                                            <input type="password" name="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Password">
                                         </div>
                                         
