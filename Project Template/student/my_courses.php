@@ -149,7 +149,7 @@ if (!$conn) {
     echo mysqli_connect_error();
 } else 
     // Replace with the actual student_id
-    $student_id = 1; // Replace with the actual student_id
+    $student_id = 3; // Replace with the actual student_id
 
     // Query to get the courses the student has enrolled in
     $query = "SELECT tutorial_class.class_id, tutorial_class.subject FROM enrollment
@@ -189,16 +189,7 @@ mysqli_close($conn);
                         
                         
                             <!-- Approach -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>Here, in this portion you can access a forum <a
-                                            target="_blank" rel="nofollow" href="https://downloads.clickview.com.au/www/Lesson%20Plans/AU-science-lesson-plan-book-year-8.pdf">Click Here</a>, we can ask questions
-                                    <p class="mb-0">Here, you can always ask questions and discuss answers with your tutors. </p>
-                                </div>
-                            </div>
+                            
 
                         </div>
                     </div>

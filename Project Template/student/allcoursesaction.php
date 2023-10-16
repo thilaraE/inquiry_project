@@ -29,12 +29,18 @@ if (!$conn) {
         $enrollmentResult = mysqli_query($conn, $checkEnrollmentQuery);
 
         if (mysqli_num_rows($enrollmentResult) > 0) {
-            echo "You are already enrolled in this class.";
+            echo '<script type="text/javascript">'; 
+            echo 'alert("Unsuccessfull: You are already enrolled in this class!");'; 
+            echo 'window.location.href = "all_courses.php";';
+            echo '</script>';        
         } else {
             // Insert the enrollment record
             $enrollQuery = "INSERT INTO enrollment (student_id, class_id) VALUES ($student_id, $class_id)";
             if (mysqli_query($conn, $enrollQuery)) {
-                echo "Enrollment successful!";
+                    echo '<script type="text/javascript">'; 
+                    echo 'alert("Successfull: Enrollment successfully added!");'; 
+                    echo 'window.location.href = "all_courses.php";';
+                    echo '</script>';
             } else {
                 echo "Error enrolling in the class: " . mysqli_error($conn);
             }
