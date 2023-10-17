@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "";
-$database = "technologyInquiryProject";
+$password = "1234";
+$database = "inquiryproject";
 
 // Create connection
 $connect = mysqli_connect($servername, $username, $password, $database);
@@ -25,45 +25,16 @@ while ($row = mysqli_fetch_array($result1)) {
     $chart_data .= "{ student_id:'" . $row["student_id"] . "', total_enrollment:" . $row["student_id"] . "}, ";
 }
 
-// Replace with your database connection details
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "technologyInquiryProject";
-
-// Create a database connection
-$conn = new mysqli($host, $username, $password, $database);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Replace with a specific tutor's ID
-$tutorId = 1; // Change this to the tutor's ID you want to retrieve
-
-// Query to fetch the tutor's name from the database
-$query = "SELECT tutor_name FROM tutor WHERE tutor_id = $tutorId";
-$result = $conn->query($query);
-
-if ($result->num_rows > 0) {
-    // Fetch the tutor's name
-    $row = $result->fetch_assoc();
-    $tutorName = $row["tutor_name"];
-} else {
-    $tutorName = "Tutor Not Found";
-}
 
 // Close the database connection
-$conn->close();
 ?>
 
 <?php
                                                 // Database connection parameters
                                                 $servername = "localhost";
                                                 $username = "root";
-                                                $password = "";
-                                                $dbname = "technologyinquiryproject";
+                                                $password = "1234";
+                                                $dbname = "inquiryproject";
 
                                                 // Create a database connection
                                                 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -85,13 +56,13 @@ $conn->close();
                                                 //     echo "No students found.";
                                                 // }
 
-                                                $sql = "SELECT tutorial_class.class_id, tutorial_class.subject, count(enrollment.student_id) as number_of_students FROM (tutorial_class JOIN teaching_session on tutorial_class.class_id=teaching_session.class_id) JOIN enrollment  on tutorial_class.class_id=enrollment.class_id WHERE teaching_session.tutor_id=$tutorId GROUP by tutorial_class.class_id;";
+                                                $sql = "SELECT tutorial_class.class_id, tutorial_class.subject, count(enrollment.student_id) as number_of_students FROM (tutorial_class JOIN teaching_session on tutorial_class.class_id=teaching_session.class_id) JOIN enrollment  on tutorial_class.class_id=enrollment.class_id WHERE teaching_session.tutor_id=2 GROUP by tutorial_class.class_id;";
                                                 $tutorClasses = $conn->query($sql);
 
-                                                $sql = "SELECT tutorial_class.class_id,tutorial_class.subject, count(question.question_id) as asked, sum(case when question.answered_by is not null then 1 else 0 end) as answered FROM `question` JOIN ((forum JOIN tutorial_class on forum.class_id= tutorial_class.class_id) JOIN teaching_session on forum.class_id=teaching_session.class_id ) on question.forum_id = forum.forum_id where teaching_session.tutor_id=$tutorId GROUP by tutorial_class.class_id;";
+                                                $sql = "SELECT tutorial_class.class_id,tutorial_class.subject, count(question.question_id) as asked, sum(case when question.answered_by is not null then 1 else 0 end) as answered FROM `question` JOIN ((forum JOIN tutorial_class on forum.class_id= tutorial_class.class_id) JOIN teaching_session on forum.class_id=teaching_session.class_id ) on question.forum_id = forum.forum_id where teaching_session.tutor_id=2 GROUP by tutorial_class.class_id;";
                                                 $questionCount = $conn->query($sql);
 
-                                                $sql = "SELECT count(question.question_id) as asked, sum(case when question.answered_by is not null then 1 else 0 end) as answered FROM `question` JOIN (forum JOIN teaching_session on forum.class_id=teaching_session.class_id ) on question.forum_id = forum.forum_id where teaching_session.tutor_id=1;";
+                                                $sql = "SELECT count(question.question_id) as asked, sum(case when question.answered_by is not null then 1 else 0 end) as answered FROM `question` JOIN (forum JOIN teaching_session on forum.class_id=teaching_session.class_id ) on question.forum_id = forum.forum_id where teaching_session.tutor_id=2;";
                                                 $totalQuestionCount = $conn->query($sql);
                                                 // Close the database connection
           $conn->close();
@@ -127,45 +98,45 @@ $conn->close();
 
 <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+<!-- Page Wrapper -->
+<div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-text mx-3">Tutor Dashboard</div>
-            </a>
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-text mx-3">Tutor Dashboard</div>
+    </a>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
                 <a class="nav-link" href="overview.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Overview</span></a>
             </li>
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item">
+        <a class="nav-link" href="my_courses.php">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>My Courses</span></a>
+    </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link" href="my_courses.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>My Courses</span></a>
-            </li>
+    
 
+    
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
 
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
-        <!-- End of Sidebar -->
+</ul>
+<!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -189,23 +160,15 @@ $conn->close();
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $tutorName; ?></span>
-                                <img class="img-profile rounded-circle" src="../img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <!-- <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> -->
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Reset Password
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -232,39 +195,7 @@ $conn->close();
                     <div class="row ">
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-12 col-md-3 mb-3">
-                            <div class="card w-auto p-3">
-
-                                <div class="d-flex align-items-center">
-
-                                    <div class="image" style="width:100px">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400" style="width:100px; font-size:40px"></i>
-                                    </div>
-
-                                    <div class="ml-3 mr-3 w-100">
-
-                                    <h4 class="mb-4 mt-0"><?php echo $tutorName; ?></h4>
-
-<!-- 
-                                        <div
-                                            class="p-2 mt-2 bg-primary h6 d-flex justify-content-between rounded text-white stats align-items-center">
-
-                                            <div class="d-flex  mx-2 py-1 flex-column">
-                                                <span class="followers  p-0 m-0 font-weight-bold">Students</span>
-                                            </div>
-                                            <div class="d-flex  mr-3  flex-column">
-                                                <span class="number2  font-weight-bold"></span>
-                                            </div>
-
-                                        </div> -->
-                                        
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-                        </div>
+                        
                                                 <!-- Earnings (Monthly) Card Example -->
                         <div class="col-12 col-md-3 mb-3">
                             <div class="card border-left-primary shadow h-100 py-2">
@@ -339,21 +270,8 @@ $conn->close();
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Student Count</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">Student Enrollments</h6>
+
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -362,7 +280,7 @@ $conn->close();
                                             <tr>
                                                 <th>Class Id</th>
                                                 <th>Subject</th>
-                                                <th>Number of students</th>
+                                                <th>Students Enrolled</th>
                                             </tr>
                                         </theader>
                                         <tbody>
@@ -394,21 +312,8 @@ $conn->close();
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Number of Questions Answered</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">Questions Answered</h6>
+                                    
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -417,8 +322,8 @@ $conn->close();
                                             <tr>
                                                 <th>Class Id</th>
                                                 <th>Subject</th>
-                                                <th>Number of questions</th>
-                                                <th>Number of answered questions</th>
+                                                <th>Question</th>
+                                                <th>Answered questions</th>
                                             </tr>
                                         </theader>
                                         <tbody>

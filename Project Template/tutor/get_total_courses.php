@@ -2,8 +2,8 @@
 // Database connection parameters
 $servername = "localhost";
 $username = "root";
-$password = "";
-$dbname = "technologyInquiryProject";
+$password = "1234";
+$dbname = "inquiryproject";
 
 $tutor_id=1;
 // Create a database connection

@@ -46,7 +46,7 @@
             </li>
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="./my_courses.php">
+        <a class="nav-link" href="my_courses.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>My Courses</span></a>
     </li>
@@ -83,41 +83,32 @@
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
 
-                <!-- Nav Item - User Information -->
-                <li class="nav-item dropdown no-arrow">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                        <img class="img-profile rounded-circle"
-                            src="img/undraw_profile.svg">
-                    </a>
-                    <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                        aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Profile
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Settings
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Activity Log
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Logout
-                        </a>
-                    </div>
-                </li>
+<!-- Nav Item - User Information -->
+<li class="nav-item dropdown no-arrow">
+    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+        <!-- <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> -->
+    </a>
+    <!-- Dropdown - User Information -->
+    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+        aria-labelledby="userDropdown">
+        <a class="dropdown-item" href="#">
+            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+            Reset Password
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+            Logout
+        </a>
+    </div>
+</li>
 
-            </ul>
+</ul>
 
-        </nav>
-        <!-- End of Topbar -->
+</nav>
+<!-- End of Topbar -->
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
@@ -133,8 +124,8 @@
 // Include the database connection settings
 $host = "localhost";
 $user = "root";
-$pwd = "";
-$sql_db = "technologyinquiryproject";
+$pwd = "1234";
+$sql_db = "inquiryproject";
 
 $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
 
@@ -152,6 +143,8 @@ if (!$conn) {
         if ($result) {
             $row = mysqli_fetch_assoc($result);
 
+            $_SESSION["class_id"] = $row["class_id"];
+
             // Display course details
             echo "<h2>Course: " . $row['subject'] . "</h2>","<br>";
             echo "Content: " . $row['content'] . "<br>";
@@ -159,7 +152,8 @@ if (!$conn) {
             echo "Day of the Week: " . $row['day_of_the_week'] . "<br>";
             echo "Start Time: " . $row['start_time'] . "<br>";
             echo "Fee: $" . $row['fee'] . "<br>";
-            echo "Syllabus Link: <a href='" . $row['syllabus_link'] . "'>Download</a>";
+            echo "<a href=\"../common/forum.php\" class=\"d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm\"><i class=\"fas fa-comments fa-sm text-white-50\"></i> Forum</a>";
+
         } else {
             echo "Error fetching course details: " . mysqli_error($conn);
         }
