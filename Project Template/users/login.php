@@ -1,3 +1,48 @@
+<?php
+
+$is_invalid = false;
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    
+    $mysqli = require __DIR__ . "/database.php";
+    
+    $sql = sprintf("SELECT * FROM user
+                    WHERE username = '%s'",
+                   $mysqli->real_escape_string($_POST["email"]));
+
+     $result = $mysqli->query($sql);
+    
+    $user = $result->fetch_assoc();
+    
+    if ($user) {
+        echo "here";
+        echo $_POST["password"], $user["password"];
+        
+        if ($_POST["password"]== $user["password"]) {
+            echo "match";
+            
+            session_start();
+            
+            session_regenerate_id();
+            
+            $_SESSION["user_id"] = $user["user_id"];
+            if($user["role"]=="adm"){
+                header("Location: ../admin/overview.php");
+            }
+            else if($user["role"]=="tut"){
+                header("Location: ../tutor/overview.php");
+            }
+            else{
+                header("Location: ../student/my_courses.php");
+            }
+            
+        }
+    }
+  
+    $is_invalid = true;
+   }
+  
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,13 +57,14 @@
     <title>SB Admin 2 - Login</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="style.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="sb-admin-2.css" rel="stylesheet">
+
 
 </head>
 
@@ -40,37 +86,31 @@
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        
+
                                     </div>
-                                    <form class="user">
+                                    <?php if ($is_invalid): ?>
+                                         <em>Invalid login</em>
+                                     <?php endif; ?>
+    
+                                    <form  method="post" class="user">
+                                        
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input type="email" name="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                                placeholder="Username" 
+                                                value="<?= htmlspecialchars($_POST["email"] ?? "") ?>">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
+                                            <input type="password" name="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Password">
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <a href="../student/my_courses.html" class="btn btn-primary btn-user btn-block">
-                                            Student Login
-                                        </a>
-                                        <a href="../tutor/overview.html" class="btn btn-primary btn-user btn-block">
-                                            Tutor Login
-                                        </a>
-                                        <a href="../admin/overview.html" class="btn btn-primary btn-user btn-block">
-                                            Admin Login
-                                        </a>
-                                    </form>
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        
+                                       
+                                        
+                                        <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
+                                    
+                                    
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +123,6 @@
         </div>
 
     </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -93,6 +132,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
+    <script src="login.js"></script>
 
 </body>
 

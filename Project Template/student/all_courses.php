@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -97,7 +100,7 @@
                                     Reset Password
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="../users/logout.php" >
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -142,7 +145,8 @@
                     else{
                         $query="SELECT * FROM tutorial_class";
                         $result = mysqli_query($conn,$query);
-                        $queryEnrollment="SELECT * FROM enrollment where student_id=1";
+                        $studentId=$_SESSION["user_id"];
+                        $queryEnrollment="SELECT * FROM enrollment where student_id=$studentId";
                         $resultEnrollment = mysqli_query($conn,$queryEnrollment);
                         if(!$result){
                             echo "error in query";
@@ -152,7 +156,7 @@
                                 $enrolFlag = false;
                                 while($row2=mysqli_fetch_assoc($resultEnrollment)){
                                     if($row["class_id"]==$row2["class_id"]){
-                                        echo "<div class=\"col-lg-6 mb-4\"><div class=\"card bg-primary text-white shadow\"><div class=\"card-body\">",$row["subject"],"<div class=\"text-white-50 small\">Fee: ",$row["fee"],"</div><form method=\"post\" action=\"allcoursesaction.php\"><input type=\"hidden\" name=\"class_id\" value=",$row["class_id"],"> <!-- Replace with the actual class ID --><button type=\"submit\" name=\"classid\" class=\"btn btn-primary\">Enroll</button></form>";
+                                        echo "<div class=\"col-lg-6 mb-4\"><div class=\"card bg-primary text-white shadow\"><div class=\"card-body\">",$row["subject"],"<div class=\"text-white-50 small\">Fee: ",$row["fee"],"</div><form method=\"post\" action=\"allcoursesaction.php\"><input type=\"hidden\" name=\"class_id\" value=",$row["class_id"],"> <!-- Replace with the actual class ID --><button type=\"submit\" name=\"classid\" class=\"btn btn-primary\" style=\"color:#4e73df\"> Enroll</button></form>";
                                         echo '<form method="post" action="coursedetails.php">';
                                         echo '<input type="hidden" name="class_id" value="' . $row["class_id"] . '">';
                                         echo '<button type="submit" name="classid" class="btn btn-primary">View Details</button>';

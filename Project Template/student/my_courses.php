@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -106,10 +109,10 @@
             Reset Password
         </a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-            Logout
-        </a>
+        <a class="dropdown-item" href="../users/logout.php" >
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
     </div>
 </li>
 
@@ -140,7 +143,7 @@ if (!$conn) {
     echo mysqli_connect_error();
 } else 
     // Replace with the actual student_id
-    $student_id = 3; // Replace with the actual student_id
+    $student_id = $_SESSION["user_id"]; // Replace with the actual student_id
 
     // Query to get the courses the student has enrolled in
     $query = "SELECT tutorial_class.class_id, tutorial_class.subject FROM enrollment
