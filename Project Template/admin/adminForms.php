@@ -74,14 +74,18 @@
 
                         // use wordwrap() if lines are longer than 70 characters
                         $msg = wordwrap($msg,70);
+                        $headers = "From: Brightboost48@example.com";
+                        echo "here";
 
                         // send email
-                        mail($username,"User Account Created!",$msg);
-
-                        echo '<script type="text/javascript">'; 
-                        echo 'alert("Successfull: User successfully added!");'; 
-                        echo 'window.location.href = "addUser.php";';
-                        echo '</script>';
+                        if(mail($username,"User Account Created!",$msg,$headers)){
+                            echo '<script type="text/javascript">'; 
+                            echo 'alert("Successfull: User successfully added and emailed the credentials!");'; 
+                            echo 'window.location.href = "addUser.php";';
+                            echo '</script>';
+                        }
+                        echo "done";
+                        
                     } 
                 }
                 else{

@@ -1,11 +1,12 @@
 <?php
 // Database connection parameters
+
 $servername = "localhost";
 $username = "root";
 $password = "1234";
 $dbname = "inquiryproject";
 
-$tutor_id=1;
+$tutor_id=$_SESSION["user_id"];
 // Create a database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 

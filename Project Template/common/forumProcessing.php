@@ -17,10 +17,10 @@ session_start();
                 if(isset($_POST["question"])){
                     date_default_timezone_set('Australia/Melbourne');
                     $question = $_POST["question"];
-                    echo $_SESSION;
+                    $user_id = $_SESSION["user_id"];
                     $forum_id = $_SESSION["forum_id"];
                     $date = date('Y-m-d H:i:s');
-                    $query = "INSERT INTO `question` (`question_id`, `forum_id`, `asked_by`, `answered_by`, `question`, `answer`, `asked_timestamp`, `answered_timestamp`) VALUES (NULL, '$forum_id', '3', NULL, '$question' , NULL, '$date', NULL)";
+                    $query = "INSERT INTO `question` (`question_id`, `forum_id`, `asked_by`, `answered_by`, `question`, `answer`, `asked_timestamp`, `answered_timestamp`) VALUES (NULL, '$forum_id', '$user_id', NULL, '$question' , NULL, '$date', NULL)";
                     $result = mysqli_query($conn,$query);
                     if($result){
                         header("location: studentForum.php");

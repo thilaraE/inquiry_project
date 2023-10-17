@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $servername = "localhost";
 $username = "root";
 $password = "1234";
@@ -6,6 +8,7 @@ $database = "inquiryproject";
 
 // Create connection
 $connect = mysqli_connect($servername, $username, $password, $database);
+$tutorId=$_SESSION["user_id"];
 
 // Check connection
 if (!$connect) {
@@ -56,13 +59,13 @@ while ($row = mysqli_fetch_array($result1)) {
                                                 //     echo "No students found.";
                                                 // }
 
-                                                $sql = "SELECT tutorial_class.class_id, tutorial_class.subject, count(enrollment.student_id) as number_of_students FROM (tutorial_class JOIN teaching_session on tutorial_class.class_id=teaching_session.class_id) JOIN enrollment  on tutorial_class.class_id=enrollment.class_id WHERE teaching_session.tutor_id=2 GROUP by tutorial_class.class_id;";
+                                                $sql = "SELECT tutorial_class.class_id, tutorial_class.subject, count(enrollment.student_id) as number_of_students FROM (tutorial_class JOIN teaching_session on tutorial_class.class_id=teaching_session.class_id) JOIN enrollment  on tutorial_class.class_id=enrollment.class_id WHERE teaching_session.tutor_id=$tutorId GROUP by tutorial_class.class_id;";
                                                 $tutorClasses = $conn->query($sql);
 
-                                                $sql = "SELECT tutorial_class.class_id,tutorial_class.subject, count(question.question_id) as asked, sum(case when question.answered_by is not null then 1 else 0 end) as answered FROM `question` JOIN ((forum JOIN tutorial_class on forum.class_id= tutorial_class.class_id) JOIN teaching_session on forum.class_id=teaching_session.class_id ) on question.forum_id = forum.forum_id where teaching_session.tutor_id=2 GROUP by tutorial_class.class_id;";
+                                                $sql = "SELECT tutorial_class.class_id,tutorial_class.subject, count(question.question_id) as asked, sum(case when question.answered_by is not null then 1 else 0 end) as answered FROM `question` JOIN ((forum JOIN tutorial_class on forum.class_id= tutorial_class.class_id) JOIN teaching_session on forum.class_id=teaching_session.class_id ) on question.forum_id = forum.forum_id where teaching_session.tutor_id=$tutorId GROUP by tutorial_class.class_id;";
                                                 $questionCount = $conn->query($sql);
 
-                                                $sql = "SELECT count(question.question_id) as asked, sum(case when question.answered_by is not null then 1 else 0 end) as answered FROM `question` JOIN (forum JOIN teaching_session on forum.class_id=teaching_session.class_id ) on question.forum_id = forum.forum_id where teaching_session.tutor_id=2;";
+                                                $sql = "SELECT count(question.question_id) as asked, sum(case when question.answered_by is not null then 1 else 0 end) as answered FROM `question` JOIN (forum JOIN teaching_session on forum.class_id=teaching_session.class_id ) on question.forum_id = forum.forum_id where teaching_session.tutor_id=$tutorId;";
                                                 $totalQuestionCount = $conn->query($sql);
                                                 // Close the database connection
           $conn->close();
@@ -160,7 +163,7 @@ while ($row = mysqli_fetch_array($result1)) {
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION["name"] ?></span>
                                 <!-- <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> -->
                             </a>
                             <!-- Dropdown - User Information -->
@@ -171,7 +174,7 @@ while ($row = mysqli_fetch_array($result1)) {
                                     Reset Password
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="../users/logout.php" >
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>

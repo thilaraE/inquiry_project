@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,7 +110,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION["name"] ?></span>
                                 <!-- <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> -->
                             </a>
                             <!-- Dropdown - User Information -->
@@ -168,7 +171,8 @@ if (!$conn) {
             echo "Day of the Week: " . $row['day_of_the_week'] . "<br>";
             echo "Start Time: " . $row['start_time'] . "<br>";
             echo "Fee: $" . $row['fee'] . "<br>";
-            echo "Syllabus Link: <a href='" . $row['syllabus_link'] . "'>Download</a>";
+            echo "<a href=\"adminForum.php\" class=\"d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm\"><i class=\"fas fa-comments fa-sm text-white-50\"></i> Forum</a>";
+
         } else {
             echo "Error fetching course details: " . mysqli_error($conn);
         }

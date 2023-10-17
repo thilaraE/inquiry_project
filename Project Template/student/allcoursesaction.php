@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +22,7 @@ if (!$conn) {
     // Check if a class_id is set in the POST request
     if (isset($_POST['class_id'])) {
         // Get the student_id (replace with the actual student_id)
-        $student_id = 1; // Replace with the actual student_id
+        $student_id = $_SESSION["user_id"]; // Replace with the actual student_id
 
         // Get the class_id from the POST data
         $class_id = $_POST['class_id'];

@@ -15,10 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user = $result->fetch_assoc();
     
     if ($user) {
-        echo "here";
-        echo $_POST["password"], $user["password"];
         
-        if ($_POST["password"]== $user["password"]) {
+        if (password_verify($_POST["password"], $user["password"])){
             echo "match";
             
             session_start();
@@ -26,6 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             session_regenerate_id();
             
             $_SESSION["user_id"] = $user["user_id"];
+            $name =  $user["first_name"]." ".$user["last_name"];
+            $_SESSION["name"] = $name;
             if($user["role"]=="adm"){
                 header("Location: ../admin/overview.php");
             }
