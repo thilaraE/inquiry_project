@@ -36,14 +36,20 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="overview.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Overview</span></a>
             </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
+                <a class="nav-link" href="courseStats.php">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Course Stats</span></a>
+            </li>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item active">
                 <a class="nav-link" href="all_courses.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>All Courses</span></a>
@@ -124,4 +130,133 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">My Course Enrollments</h1>
+            </div>
+
+            <!-- Content Row -->
+            <div class="row">
+<?php
+// Include the database connection settings
+include("settings.php");
+
+$conn = @mysqli_connect($host, $user, $pwd, $sql_db);
+
+if (!$conn) {
+    echo "Database connection error: " . mysqli_connect_error();
+} else {
+    // Check if a class_id is set in the POST request
+    if (isset($_POST['class_id'])) {
+        $class_id = $_POST['class_id'];
+
+        // Query to get the details of the selected class
+        $query = "SELECT * FROM tutorial_class WHERE class_id = $class_id";
+        $result = mysqli_query($conn, $query);
+
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+
+            // Display course details
+            echo "<h2>Course: " . $row['subject'] . "</h2>","<br>";
+            echo "Content: " . $row['content'] . "<br>";
+            echo "Duration: " . $row['duration_in_hours'] . " hours<br>";
+            echo "Day of the Week: " . $row['day_of_the_week'] . "<br>";
+            echo "Start Time: " . $row['start_time'] . "<br>";
+            echo "Fee: $" . $row['fee'] . "<br>";
+            echo "Syllabus Link: <a href='" . $row['syllabus_link'] . "'>Download</a>";
+        } else {
+            echo "Error fetching course details: " . mysqli_error($conn);
+        }
+    } else {
+        echo "No class selected for details.";
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
+}
+?>
+
+</a>
+                                        </div>
+                                    </div>
+                                
+                        
+                        
+                            <!-- Approach -->
+                            
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="../vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/chart-area-demo.js"></script>
+    <script src="../js/demo/chart-pie-demo.js"></script>
+
+</body>
+
+</html>

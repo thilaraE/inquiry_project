@@ -1,4 +1,6 @@
 <?php
+session_start();
+
     require_once("settings.php");
     $conn = @mysqli_connect($host,$user,$pwd,$sql_db);
     echo "welome";
@@ -15,9 +17,10 @@
                 if(isset($_POST["question"])){
                     date_default_timezone_set('Australia/Melbourne');
                     $question = $_POST["question"];
+                    echo $_SESSION;
+                    $forum_id = $_SESSION["forum_id"];
                     $date = date('Y-m-d H:i:s');
-                    $query = "INSERT INTO `question` (`question_id`, `forum_id`, `asked_by`, `answered_by`, `question`, `answer`, `asked_timestamp`, `answered_timestamp`) VALUES (NULL, '1', '3', NULL, '$question' , NULL, '$date', NULL)";
-                    echo $query;
+                    $query = "INSERT INTO `question` (`question_id`, `forum_id`, `asked_by`, `answered_by`, `question`, `answer`, `asked_timestamp`, `answered_timestamp`) VALUES (NULL, '$forum_id', '3', NULL, '$question' , NULL, '$date', NULL)";
                     $result = mysqli_query($conn,$query);
                     if($result){
                         header("location: studentForum.php");

@@ -36,13 +36,13 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="overview.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Overview</span></a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="courseStats.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Course Stats</span></a>
@@ -131,6 +131,7 @@
                 <!-- End of Topbar -->
 
                 
+
     <?php
     include("settining.php");
 
@@ -152,7 +153,6 @@
     $totalStudents = mysqli_query($conn, $totalStudentsQ);
     $totalStudentsRow = mysqli_fetch_assoc($totalStudents);
 
-
     // get the total questions 
     $totalquestionsQ = "SELECT COUNT(*) as question_id FROM question";
     $totalquestions = mysqli_query($conn, $totalquestionsQ);
@@ -163,50 +163,23 @@
     $questionsAnswered = mysqli_query($conn, $totalquestionsAnsweredQ);
     $totalquestionsAnsweredRow = mysqli_fetch_assoc($questionsAnswered);
 
-    // SQL query for enrollments
-    $sql = "SELECT
-tc.subject AS tutorial_subject,
-COUNT(e.student_id) AS student_count
-FROM
-tutorial_class tc
-LEFT JOIN
-enrollment e ON tc.class_id = e.class_id
-GROUP BY
-tc.subject";
-
-    $result = $conn->query($sql);
-
-    // Fetch the data and format it as an associative array
-    $data = array();
-    while ($row = $result->fetch_assoc()) {
-        $data[] = $row;
-    }
 
 
-        // SQL query for questions answered
-        $sql2 = "SELECT
-        tc.subject AS tutorial_subject,
-        COUNT(q.question_id) AS question_count
-        FROM
-        tutorial_class tc
-        LEFT JOIN
-        forum f ON tc.class_id = f.class_id
-        LEFT JOIN 
-        question q ON f.forum_id = q.forum_id
-        GROUP BY
-        tc.subject";
-        
-            $result2 = $conn->query($sql2);
-        
-            // Fetch the data and format it as an associative array
-            $data2 = array();
-            while ($row2 = $result2->fetch_assoc()) {
-                $data2[] = $row2;
-            }
-
-    // Close connection
-    $conn->close();
-
+    // get courses table 
+    $tableForAllCoursesQ = "SELECT
+    tc.class_id,
+    tc.subject AS tutorial_subject,
+    COUNT(q.question_id) AS question_count,
+    COUNT(DISTINCT e.student_id) AS student_count
+    FROM
+    tutorial_class tc
+    LEFT JOIN
+    question q ON tc.class_id = q.forum_id
+    LEFT JOIN
+    enrollment e ON tc.class_id = e.class_id
+    GROUP BY
+    tc.class_id, tc.subject";
+    $tableForAllCourses = mysqli_query($conn, $tableForAllCoursesQ);
     ?>
 
                 <!-- Begin Page Content -->
@@ -214,7 +187,7 @@ tc.subject";
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Overview</h1>
+                        <h1 class="h3 mb-0 text-gray-800">All courses</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -300,43 +273,47 @@ tc.subject";
                             </div>
                         </div>
                     </div>
+
                     <!-- Content Row -->
-                    <div class="row">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Course Statistics</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Class ID</th>
+                                            <th>Class Name</th>
+                                            <th>Questions</th>
+                                            <th>Enrollments</th>
+                                        </tr>
+                                    </thead>
 
-                        <div class="col-xl-8 col-lg-1">
-                            <!-- Bar Chart -->
-                            <div class="card shadow mb-10">
-                                <div class="card-header py-2">
-                                    <h6 class="m-0 font-weight-bold text-primary">Student Enrollments</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-bar">
-                                        <canvas id="enrollmentchart"></canvas>
-                                    </div>
-                                    <hr>
-                                </div>
+                                    <tbody>
+                                        <?php
+                                        while ($tableForAllCoursesRow = mysqli_fetch_assoc($tableForAllCourses)) {
+                                            echo "<tr>";
+                                            echo "<td>", $tableForAllCoursesRow["class_id"], "</td>\n";
+                                            echo "<td>", $tableForAllCoursesRow["tutorial_subject"], "</td>\n";
+                                            echo "<td>", $tableForAllCoursesRow["question_count"], "</td>\n";
+                                            echo "<td>", $tableForAllCoursesRow["student_count"], "</td>\n";
+                                            echo "</tr>";
+                                        }
+                                        ?>
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-        </br>
-                    <div class="row">
 
-                        <div class="col-xl-8 col-lg-1">
-                            <!-- Bar Chart -->
-                            <div class="card shadow mb-10">
-                                <div class="card-header py-2">
-                                    <h6 class="m-0 font-weight-bold text-primary">Questions answered</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-bar">
-                                        <canvas id="questionsChart"></canvas>
-                                    </div>
-                                    <hr>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+
                 </div>
+                <!-- /.container-fluid -->
+
             </div>
             <!-- End of Main Content -->
 
@@ -361,7 +338,7 @@ tc.subject";
         <i class="fas fa-angle-up"></i>
     </a>
 
-  
+    
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -375,105 +352,9 @@ tc.subject";
     <!-- Page level plugins -->
     <script src="../vendor/chart.js/Chart.min.js"></script>
 
-
     <!-- Page level custom scripts -->
     <script src="../js/demo/chart-area-demo.js"></script>
-    <script src="../js/demo/chart-bar-demo.js"></script>
     <script src="../js/demo/chart-pie-demo.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/Chart.min.js"></script> -->
-
-    <script>
-        // Data from PHP
-        document.addEventListener("DOMContentLoaded", function () {
-            // Data from PHP
-            var labels = <?php echo json_encode(array_column($data, 'tutorial_subject')); ?>;
-            var values = <?php echo json_encode(array_column($data, 'student_count')); ?>;
-
-            // Get the canvas element
-            var canvas = document.getElementById('enrollmentchart');
-
-            // Check if the canvas element exists and is a canvas
-            if (canvas && canvas.getContext) {
-                var ctx = canvas.getContext('2d');
-
-                var myBarChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Student Count',
-                            label: "Enrollments",
-                            backgroundColor: "#4e73df",
-                            hoverBackgroundColor: "#2e59d9",
-                            borderColor: "#4e73df",
-                            data: values,
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            x: {
-                                type: 'category',
-                                labels: labels,
-                            },
-                            y: {
-                                beginAtZero: true,
-                            },
-                        }
-                    }
-
-                });
-            } else {
-                console.error("Canvas element not found or is not a valid canvas.");
-            }
-        });
-
-    </script>
-    <script>
-        // Data from PHP
-        document.addEventListener("DOMContentLoaded", function () {
-            // Data from PHP
-            var labels = <?php echo json_encode(array_column($data2, 'tutorial_subject')); ?>;
-            var values = <?php echo json_encode(array_column($data2, 'question_count')); ?>;
-
-            // Get the canvas element
-            var canvas = document.getElementById('questionsChart');
-
-            // Check if the canvas element exists and is a canvas
-            if (canvas && canvas.getContext) {
-                var ctx = canvas.getContext('2d');
-
-                var myBarChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Questions Count',
-                            label: "Questions",
-                            backgroundColor: "#4e73df",
-                            hoverBackgroundColor: "#2e59d9",
-                            borderColor: "#4e73df",
-                            data: values,
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            x: {
-                                type: 'category',
-                                labels: labels,
-                            },
-                            y: {
-                                beginAtZero: true,
-                            },
-                        }
-                    }
-
-                });
-            } else {
-                console.error("Canvas element not found or is not a valid canvas.");
-            }
-        });
-
-    </script>
 
 </body>
 

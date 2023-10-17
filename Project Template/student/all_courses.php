@@ -87,23 +87,14 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <!-- <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> -->
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Reset Password
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -161,12 +152,22 @@
                                 $enrolFlag = false;
                                 while($row2=mysqli_fetch_assoc($resultEnrollment)){
                                     if($row["class_id"]==$row2["class_id"]){
-                                        echo "<div class=\"col-lg-6 mb-4\"><div class=\"card bg-primary text-white shadow\"><div class=\"card-body\">",$row["subject"],"<div class=\"text-white-50 small\">Fee: ",$row["fee"],"</div><form method=\"post\" action=\"allcoursesaction.php\"><input type=\"hidden\" name=\"class_id\" value=",$row["class_id"],"> <!-- Replace with the actual class ID --><button type=\"submit\" name=\"classid\" class=\"btn btn-primary\">Enroll</button></form></div></div></div>";
+                                        echo "<div class=\"col-lg-6 mb-4\"><div class=\"card bg-primary text-white shadow\"><div class=\"card-body\">",$row["subject"],"<div class=\"text-white-50 small\">Fee: ",$row["fee"],"</div><form method=\"post\" action=\"allcoursesaction.php\"><input type=\"hidden\" name=\"class_id\" value=",$row["class_id"],"> <!-- Replace with the actual class ID --><button type=\"submit\" name=\"classid\" class=\"btn btn-primary\">Enroll</button></form>";
+                                        echo '<form method="post" action="coursedetails.php">';
+                                        echo '<input type="hidden" name="class_id" value="' . $row["class_id"] . '">';
+                                        echo '<button type="submit" name="classid" class="btn btn-primary">View Details</button>';
+                                        echo '</form>';
+                                        echo "</div></div></div>";
                                         $enrolFlag = true;
                                     }
                                 }
                                 if($enrolFlag == false){
-                                    echo "<div class=\"col-lg-6 mb-4\"><div class=\"card bg-primary text-white shadow\"><div class=\"card-body\">",$row["subject"],"<div class=\"text-white-50 small\">Fee: ",$row["fee"],"</div><form method=\"post\" action=\"allcoursesaction.php\"><input type=\"hidden\" name=\"class_id\" value=",$row["class_id"],"> <!-- Replace with the actual class ID --><button type=\"submit\" name=\"classid\" class=\"btn btn-primary\">Enroll</button></form></div></div></div>";
+                                    echo "<div class=\"col-lg-6 mb-4\"><div class=\"card bg-primary text-white shadow\"><div class=\"card-body\">",$row["subject"],"<div class=\"text-white-50 small\">Fee: ",$row["fee"],"</div><form method=\"post\" action=\"allcoursesaction.php\"><input type=\"hidden\" name=\"class_id\" value=",$row["class_id"],"> <!-- Replace with the actual class ID --><button type=\"submit\" name=\"classid\" class=\"btn btn-primary\">Enroll</button></form>";
+                                    echo '<form method="post" action="coursedetails.php">';
+                                    echo '<input type="hidden" name="class_id" value="' . $row["class_id"] . '">';
+                                    echo '<button type="submit" name="classid" class="btn btn-primary">View Details</button>';
+                                    echo '</form>';
+                                    echo "</div></div></div>";
 
                                 }
                             }
