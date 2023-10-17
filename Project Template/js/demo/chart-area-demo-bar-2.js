@@ -29,20 +29,21 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 // Area Chart Example
-var ctx = document.getElementById("myAreaChart");
+var ctx = document.getElementById("myAreaChart2");
 var myLineChart = new Chart(ctx, {
 	type: "bar",
 	data: {
 		labels: [
-			"Grade 10 - Maths",
-			"Grade 11 - Maths",
-			"Grade 10 - Science",
-			"Grade 11 - Science",
+			"Week 1",
+			"Week 2",
+			"Week 3",
+			"Week 4",
+			"Week 5",
 			
 		],
 		datasets: [
 			{
-				label: "No of Students",
+				label: "Answer",
 				lineTension: 0.3,
 				backgroundColor: "rgba(78, 115, 223, 1)",
 				borderColor: "rgba(78, 115, 223, 1)",
@@ -54,7 +55,7 @@ var myLineChart = new Chart(ctx, {
 				pointHoverBorderColor: "rgba(78, 115, 223, 1)",
 				pointHitRadius: 10,
 				pointBorderWidth: 2,
-				data: [248, 123, 367, 242 ],
+				data: [15, 40, 30, 25, 35 ],
 			},
 		],
 	},
