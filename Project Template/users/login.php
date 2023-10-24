@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>Bright Boost Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="style.css" rel="stylesheet" type="text/css">
@@ -124,9 +124,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Template Credits &copy; startbootstrap-sb-admin-2</span>
                         <br>
-                        <span>image Copyright &copy; https://pixabay.com/</span>
+                        <span>Image Credits &copy; https://pixabay.com/</span>
                     </div>
                 </div>
             </footer>
