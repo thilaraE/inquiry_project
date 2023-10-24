@@ -32,11 +32,11 @@ session_start();
                     date_default_timezone_set('Australia/Melbourne');
                     $questionId = $_POST["questionId"];
                     $answer = $_POST["answer"];
-                    echo $questionId,$answer;
+                    $user_id = $_SESSION["user_id"];
                     $date = date('Y-m-d H:i:s');
                     $time_post = microtime(true);
                     $exec_time = $time_post - $_POST["startTime"];
-                    $query = "UPDATE question SET answer= '$answer', answered_timestamp='$date', answered_by='2', time_taken='$exec_time' WHERE question_id='$questionId'";
+                    $query = "UPDATE question SET answer= '$answer', answered_timestamp='$date', answered_by='$user_id', time_taken='$exec_time' WHERE question_id='$questionId'";
                     echo $query;
                     $result = mysqli_query($conn,$query);
                     if($result){

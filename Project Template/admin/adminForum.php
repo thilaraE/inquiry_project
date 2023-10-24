@@ -108,24 +108,18 @@ session_start();
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION["name"] ?></span>
-                                <!-- <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> -->
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="resetPassword.php">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Reset Password
                                 </a>
-                                <div class="dropdown-divider"></div>
+                                
+                        </li>
+                        <li class="nav-item dropdown no-arrow">
+                        
                                 <a class="dropdown-item" href="../users/logout.php" >
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
-                            </div>
                         </li>
 
                     </ul>
@@ -141,9 +135,7 @@ session_start();
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Question Forum</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="openForm()"><i
-                            class="fas fa-comments fa-sm text-white-50"></i> New Question</a>
-                            
+                                                   
                             <script>
                                 function openForm() {
                                   document.getElementById("myForm").style.display = "block";
@@ -197,8 +189,9 @@ session_start();
                             echo mysqli_connect_error();
                         }
                         else{
+                            $class_id = $_SESSION['class_id'];
 
-                            $query_for_time = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(time_taken))) as time_taken,first_name,last_name, answered_by FROM `question`,user WHERE user_id=answered_by group by answered_by";
+                            $query_for_time = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(time_taken))) as time_taken,first_name,last_name, answered_by FROM `question`,user,forum WHERE user_id=answered_by AND question.forum_id=forum.forum_id AND forum.class_id=$class_id group by answered_by";
                             $result_for_time = mysqli_query($conn,$query_for_time);
                             if(!$result_for_time){
                                 echo "<p>Something wrong with the query</p>";
@@ -211,7 +204,7 @@ session_start();
                                 echo "</div>";
                             }
 
-                                $query = "SELECT * FROM forum,question WHERE forum.forum_id=question.forum_id and class_id=1 ORDER BY asked_timestamp DESC";
+                                $query = "SELECT * FROM forum,question WHERE forum.forum_id=question.forum_id and class_id=$class_id ORDER BY asked_timestamp DESC";
                                 $result = mysqli_query($conn,$query);
                                 if(!$result){
                                     echo "<p>Something wrong with the query</p>";

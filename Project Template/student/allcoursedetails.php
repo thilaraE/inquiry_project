@@ -36,17 +36,12 @@ session_start();
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-text mx-3">Tutor Dashboard</div>
+        <div class="sidebar-brand-text mx-3">Student Dashboard</div>
     </a>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-        <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
-                <a class="nav-link" href="overview.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Overview</span></a>
-            </li>
+
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
         <a class="nav-link" href="my_courses.php">
@@ -54,7 +49,12 @@ session_start();
             <span>My Courses</span></a>
     </li>
 
-    
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link" href="all_courses.php">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>All Courses</span></a>
+    </li>
 
     
     <!-- Divider -->
@@ -83,12 +83,12 @@ session_start();
             </button>
 
 
-            <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
+           <!-- Topbar Navbar -->
+           <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                        <a class="dropdown-item" href="resetPasswordTutor.php">
+                        <a class="dropdown-item" href="resetPasswordStudent.php">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Reset Password
                                 </a>
@@ -119,10 +119,7 @@ session_start();
             <div class="row">
 <?php
 // Include the database connection settings
-$host = "localhost";
-$user = "root";
-$pwd = "1234";
-$sql_db = "inquiryproject";
+include("settings.php");
 
 $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
 
@@ -132,7 +129,6 @@ if (!$conn) {
     // Check if a class_id is set in the POST request
     if (isset($_POST['class_id'])) {
         $class_id = $_POST['class_id'];
-        $_SESSION["class_id"]=$class_id;
 
         // Query to get the details of the selected class
         $query = "SELECT * FROM tutorial_class WHERE class_id = $class_id";
@@ -140,7 +136,6 @@ if (!$conn) {
 
         if ($result) {
             $row = mysqli_fetch_assoc($result);
-
             $_SESSION["class_id"] = $row["class_id"];
 
             // Display course details
@@ -150,7 +145,7 @@ if (!$conn) {
             echo "Day of the Week: " . $row['day_of_the_week'] . "<br>";
             echo "Start Time: " . $row['start_time'] . "<br>";
             echo "Fee: $" . $row['fee'] . "<br>";
-            echo "<a href=\"../common/forum.php\" class=\"d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm\"><i class=\"fas fa-comments fa-sm text-white-50\"></i> Forum</a>";
+
 
         } else {
             echo "Error fetching course details: " . mysqli_error($conn);
@@ -165,6 +160,7 @@ if (!$conn) {
 ?>
 
 </a>
+
                                         </div>
                                     </div>
                                 

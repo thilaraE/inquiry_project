@@ -18,7 +18,10 @@
                 echo $query;
                 $result = mysqli_query($conn,$query);
                 if($result){
-                    header("location: scheduleTutorialSession.php");
+                    echo '<script type="text/javascript">'; 
+                    echo 'alert("Successfull: Tutor successfully added!");'; 
+                    echo 'window.location.href = "scheduleTutorialSession.php";';
+                    echo '</script>';
                 } 
             }
             elseif($_POST["formType"]=="scheduleClass"){
@@ -104,17 +107,17 @@
                 $oldPassword = $_POST["oldPassword"];
                 $newPassword = $_POST["newPassword"];
                 $confirmPassword = $_POST["confirmPassword"];
-                if($newPassword != $oldPassword){
+                if($newPassword != $confirmPassword){
                     echo '<script type="text/javascript">'; 
                     echo 'alert("Unsuccessful: Password is not the same as the confirmed password!");'; 
                     echo 'window.location.href = "resetPassword.php";';
                     echo '</script>';
                 }
                 else{
-                    $oldhash = password_hash($oldPassword, PASSWORD_DEFAULT);
-                    $queryOldPassword = "SELECT * FROM user WHERE username= '$username' AND password='$oldhash'";
+                    $queryOldPassword = "SELECT * FROM user WHERE username= '$username'";
                     $resultOldPassword = mysqli_query($conn,$queryOldPassword);
-                    if(mysqli_num_rows($resultOldPassword)==0){
+                    $userDetails = $resultOldPassword->fetch_assoc();
+                    if (!password_verify($oldPassword, $userDetails["password"])){
                         echo '<script type="text/javascript">'; 
                         echo 'alert("Unsuccessful: The old password is incorrect!");'; 
                         echo 'window.location.href = "resetPassword.php";';
@@ -123,10 +126,17 @@
                     else{
                         $newhash = password_hash($newPassword, PASSWORD_DEFAULT);
                         $updateQuery = "UPDATE user SET password='$newhash' WHERE username='$username'";
-                        echo '<script type="text/javascript">'; 
-                        echo 'alert("Successfull: Password successfully added!");'; 
-                        echo 'window.location.href = "resetPassword.php";';
-                        echo '</script>';
+                        $result = mysqli_query($conn,$updateQuery);
+                        if($result){
+                            echo '<script type="text/javascript">'; 
+                            echo 'alert("Successfull: Password successfully added!");'; 
+                            echo 'window.location.href = "resetPassword.php";';
+                            echo '</script>';
+                        }
+                        else{
+                            echo "Something wrong with the query";
+                        }
+                        
                     }
                 }                
             }

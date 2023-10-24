@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +19,10 @@ session_start();
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+
 </head>
+
+<body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -52,7 +52,7 @@ session_start();
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="all_courses.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>All Courses</span></a>
@@ -64,7 +64,7 @@ session_start();
                     <span>Add User</span></a>
             </li>
 
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="scheduleTutorialSession.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Schedule Tutorial Session</span></a>
@@ -124,83 +124,43 @@ session_start();
 
                     </ul>
 
-
                 </nav>
                 <!-- End of Topbar -->
 
-                
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Schedule class</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Reset Password</h1>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="p-5">
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Create a new tutorial session</h1>
-                                </div>
                                 <form class="user" method="post" action="adminForms.php">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control form-control-user" name="username"
+                                                placeholder="Username" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control form-control-user" name="oldPassword"
+                                                placeholder="Old password" required>
+                                    </div>
                                     <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select class="form-control" id="class" name="classId" required>
-                                                <option class="dropdown-item" value="">Class Id</option>
-                                                <?php
-                                                    require_once("settings.php");
-                                                    $conn = @mysqli_connect($host,$user,$pwd,$sql_db);
-                                                    if(!$conn){
-                                                        echo mysqli_connect_error();
-                                                    }
-                                                    else{
-                                                            $query = "SELECT class_id,subject FROM tutorial_class";
-                                                            $result = mysqli_query($conn,$query);
-                                                            if(!$result){
-                                                                echo "<p>Something wrong with the query</p>";
-                                                            }
-                                                            else{
-                                                                while($row=mysqli_fetch_assoc($result)){
-                                                                    echo "<option class=\"dropdown-item\" value=\"",$row["class_id"],"\">",$row["class_id"],"-",$row["subject"],"</option>";
-                                                                }
-                                                            }
-                                                    }
-                                                ?>
-                                            </select>
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <input type="password" class="form-control form-control-user" name="newPassword"
+                                                placeholder="New password" required>
                                         </div>
                                         <div class="col-sm-6">
-                                            <select class="form-control" id="tutor" name="tutorId" required>
-                                                <option class="dropdown-item" value="">Tutor Id</option>
-                                                <?php
-                                                    require_once("settings.php");
-                                                    $conn = @mysqli_connect($host,$user,$pwd,$sql_db);
-                                                    if(!$conn){
-                                                        echo mysqli_connect_error();
-                                                    }
-                                                    else{
-                                                            $query = "SELECT tutor_id, first_name FROM tutor,user WHERE tutor_id=user_id";
-                                                            $result = mysqli_query($conn,$query);
-                                                            if(!$result){
-                                                                echo "<p>Something wrong with the query</p>";
-                                                            }
-                                                            else{
-                                                                while($row=mysqli_fetch_assoc($result)){
-                                                                    echo "<option class=\"dropdown-item\" value=\"",$row["tutor_id"],"\">",$row["tutor_id"],"-",$row["first_name"],"</option>";
-                                                                }
-                                                            }
-                                                    }
-                                                ?>
-                                            </select>
-                                            <input type="hidden" name="formType" value="scheduleSession">
+                                            <input type="password" class="form-control form-control-user" name="confirmPassword"
+                                                placeholder="Confirm new password" required>
                                         </div>
                                     </div>
-                                    <input class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit" value="Create tutorial session" />
-                                    </div>
-                                    
-                                    
+                                    <input type="hidden" name="formType" value="resetPassword">                                    
+                                    <input class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit" value="Reset" />
                                     
                                 </form>
                                 
@@ -235,7 +195,25 @@ session_start();
         <i class="fas fa-angle-up"></i>
     </a>
 
-   
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>

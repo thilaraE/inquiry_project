@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +9,7 @@ session_start();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Student - Dashboard</title>
+    <title>Tutor - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -31,7 +28,6 @@ session_start();
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-<!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -42,13 +38,13 @@ session_start();
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
+        <li class="nav-item active">
                 <a class="nav-link" href="overview.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Overview</span></a>
             </li>
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="my_courses.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>My Courses</span></a>
@@ -84,95 +80,67 @@ session_start();
 
 
             <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
+            <<ul class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                        <a class="dropdown-item" href="resetPasswordTutor.php">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Reset Password
-                                </a>
-                                
-                        </li>
-                        <li class="nav-item dropdown no-arrow">
-                        
-                                <a class="dropdown-item" href="../users/logout.php" >
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                        </li>
+<!-- Nav Item - User Information -->
+<li class="nav-item dropdown no-arrow">
+<a class="dropdown-item" href="resetPasswordTutor.php">
+            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+            Reset Password
+        </a>
+        
+</li>
+<li class="nav-item dropdown no-arrow">
 
-                    </ul>
+        <a class="dropdown-item" href="../users/logout.php" >
+            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+            Logout
+        </a>
+</li>
+
+</ul>
 
 </nav>
 <!-- End of Topbar -->
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
 
-            <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">My Course Enrollments</h1>
-            </div>
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
 
-            <!-- Content Row -->
-            <div class="row">
-<?php
-// Include the database connection settings
-$host = "localhost";
-$user = "root";
-$pwd = "1234";
-$sql_db = "inquiryproject";
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Reset Password</h1>
+                    </div>
 
-$conn = @mysqli_connect($host, $user, $pwd, $sql_db);
-
-if (!$conn) {
-    echo "Database connection error: " . mysqli_connect_error();
-} else {
-    // Check if a class_id is set in the POST request
-    if (isset($_POST['class_id'])) {
-        $class_id = $_POST['class_id'];
-        $_SESSION["class_id"]=$class_id;
-
-        // Query to get the details of the selected class
-        $query = "SELECT * FROM tutorial_class WHERE class_id = $class_id";
-        $result = mysqli_query($conn, $query);
-
-        if ($result) {
-            $row = mysqli_fetch_assoc($result);
-
-            $_SESSION["class_id"] = $row["class_id"];
-
-            // Display course details
-            echo "<h2>Course: " . $row['subject'] . "</h2>","<br>";
-            echo "Content: " . $row['content'] . "<br>";
-            echo "Duration: " . $row['duration_in_hours'] . " hours<br>";
-            echo "Day of the Week: " . $row['day_of_the_week'] . "<br>";
-            echo "Start Time: " . $row['start_time'] . "<br>";
-            echo "Fee: $" . $row['fee'] . "<br>";
-            echo "<a href=\"../common/forum.php\" class=\"d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm\"><i class=\"fas fa-comments fa-sm text-white-50\"></i> Forum</a>";
-
-        } else {
-            echo "Error fetching course details: " . mysqli_error($conn);
-        }
-    } else {
-        echo "No class selected for details.";
-    }
-
-    // Close the database connection
-    mysqli_close($conn);
-}
-?>
-
-</a>
+                    <!-- Content Row -->
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="p-5">
+                                <form class="user" method="post" action="adminForms.php">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control form-control-user" name="username"
+                                                placeholder="Username" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control form-control-user" name="oldPassword"
+                                                placeholder="Old password" required>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <input type="password" class="form-control form-control-user" name="newPassword"
+                                                placeholder="New password" required>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control form-control-user" name="confirmPassword"
+                                                placeholder="Confirm new password" required>
                                         </div>
                                     </div>
+                                    <input type="hidden" name="formType" value="resetPassword">                                    
+                                    <input class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit" value="Reset" />
+                                    
+                                </form>
                                 
-                        
-                        
-                            <!-- Approach -->
-                            
-
+                            </div>
                         </div>
                     </div>
 
