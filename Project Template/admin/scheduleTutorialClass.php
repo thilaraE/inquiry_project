@@ -185,10 +185,6 @@ session_start();
                                         <input type="text" class="form-control form-control-user" name="content"
                                             placeholder="Content" required>
                                     </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" name="syllabus"
-                                            placeholder="Syllabus Link">
-                                    </div>
                                     <input type="hidden" name="formType" value="scheduleClass">                                    
                                     <input class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit" value="Create tutorial class" />
                                     

@@ -43,14 +43,14 @@ session_start();
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="my_courses.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>My Courses</span></a>
     </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item active">
         <a class="nav-link" href="all_courses.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>All Courses</span></a>
@@ -111,9 +111,6 @@ session_start();
         <div class="container-fluid">
 
             <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">My Course Enrollments</h1>
-            </div>
 
             <!-- Content Row -->
             <div class="row">
@@ -134,6 +131,9 @@ if (!$conn) {
         $query = "SELECT * FROM tutorial_class WHERE class_id = $class_id";
         $result = mysqli_query($conn, $query);
 
+        $queryTutors = "SELECT DISTINCT * FROM user,teaching_session WHERE teaching_session.class_id = $class_id AND teaching_session.tutor_id = user.user_id";
+        $resulTutors = mysqli_query($conn, $queryTutors);
+
         if ($result) {
             $row = mysqli_fetch_assoc($result);
             $_SESSION["class_id"] = $row["class_id"];
@@ -145,6 +145,13 @@ if (!$conn) {
             echo "Day of the Week: " . $row['day_of_the_week'] . "<br>";
             echo "Start Time: " . $row['start_time'] . "<br>";
             echo "Fee: $" . $row['fee'] . "<br>";
+            echo "<em>Tutors:</em> <br>";
+            if($resulTutors){
+                while($row2=mysqli_fetch_assoc($resulTutors)){
+                    echo $row2["first_name"]," ",$row2["last_name"],"<br>";
+                }
+            }
+            
 
 
         } else {

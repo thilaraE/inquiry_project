@@ -35,6 +35,11 @@
                 $query = "INSERT INTO `tutorial_class`(`subject`, `content`, `duration_in_hours`, `day_of_the_week`, `start_time`, `fee`, `syllabus_link`) VALUES ('$subject' , '$content','$duration','$day','$time','$fee','$syllabus')";
                 echo $query;
                 $result = mysqli_query($conn,$query);
+                $queryClassId = "SELECT class_id FROM tutorial_class ORDER BY class_id DESC LIMIT 1";
+                $resultClassId = mysqli_query($conn,$queryClassId);
+                $classId = mysqli_fetch_assoc($resultClassId)["class_id"];
+                $queryForum = "INSERT INTO `forum`(`class_id`) VALUES ('$classId')";
+                $resultForum = mysqli_query($conn,$queryForum);
                 if($result){
                     echo '<script type="text/javascript">'; 
                     echo 'alert("Successfull: Class successfully added!");'; 
