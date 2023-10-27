@@ -1,10 +1,7 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$username = "root";
-$password = "1234";
-$dbname = "inquiryproject";
+require_once("settings.php");
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

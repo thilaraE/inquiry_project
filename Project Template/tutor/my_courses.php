@@ -130,10 +130,7 @@ session_start();
             <!-- Content Row -->
             <div class="row">
 <?php 
-$host = "localhost";
-$user = "root";
-$pwd = "1234";
-$sql_db = "inquiryproject";
+require_once("settings.php");
 
 $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
 $role = "stu";

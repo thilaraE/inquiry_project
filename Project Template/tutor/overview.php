@@ -1,11 +1,7 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$username = "root";
-$password = "1234";
-$database = "inquiryproject";
-
+require_once("settings.php");
 // Create connection
 $connect = mysqli_connect($servername, $username, $password, $database);
 $tutorId=$_SESSION["user_id"];
@@ -34,10 +30,7 @@ while ($row = mysqli_fetch_array($result1)) {
 
 <?php
                                                 // Database connection parameters
-                                                $servername = "localhost";
-                                                $username = "root";
-                                                $password = "1234";
-                                                $dbname = "inquiryproject";
+                                                require_once("settings.php");
 
                                                 // Create a database connection
                                                 $conn = new mysqli($servername, $username, $password, $dbname);

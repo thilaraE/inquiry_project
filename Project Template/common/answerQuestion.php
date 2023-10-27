@@ -124,7 +124,6 @@ session_start();
                         }
                         else{
                             $time_at_load = microtime(true);
-                            echo $time_at_load;
                             $question_id = $_GET["id"];
                             $query = "";
                             $query = "SELECT * FROM question WHERE question_id= $question_id";

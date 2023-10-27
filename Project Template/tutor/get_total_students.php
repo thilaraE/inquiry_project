@@ -1,10 +1,7 @@
 <?php
 // Database connection parameters
 
-$servername = "localhost";
-$username = "root";
-$password = "1234";
-$dbname = "inquiryproject";
+require_once("settings.php");
 
 $tutor_id=$_SESSION["user_id"];
 // Create a database connection
